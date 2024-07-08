@@ -12,6 +12,15 @@ describe('My First Test', () => {
       cy.get('.products').find('.product').should('have.length', 4)
 
       // pra pegar o index usa a função eq. Começa no zero
-      cy.get('.products').find('.product').eq(2)
+      cy.get('.products').find('.product').eq(2).contains('ADD TO CART').click()
+
+      //iteração
+      cy.get('.products').find('.product').each(($product) => {
+        const productName = $product.find('h4.product-name').text()
+        if (productName.includes('Carrot')) {
+          // usa o wrap pra resolver a promise
+          cy.wrap($product).find('button:contains(ADD TO CART)').click()
+        }
+      } )
     })
   })
